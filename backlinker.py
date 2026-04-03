@@ -11,7 +11,7 @@ try:
                                               H4-cklinker - wmdark.com     
   """)
   if (sys.version_info.major == 3):
-    site = "https://gameslib.vercel.app"
+    site = "gameslib.vercel.app"
   else:
     site = raw_input(" => Backlink Kasilcak Site\t: ")
   with open("urlbacklinks.json", "r") as file:
