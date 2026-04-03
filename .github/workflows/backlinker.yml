@@ -23,4 +23,4 @@ jobs:
         run: pip install requests
 
       - name: Run backlinker script
-        run: echo "gameslib.vercel.app" | python backlinker.py
+        run: python backlinker.py
