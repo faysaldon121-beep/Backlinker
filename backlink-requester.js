@@ -1,6 +1,5 @@
 // backlink-requester.js
-import { readFile } from 'fs/promises';
-import { setTimeout } from 'timers/promises';
+import { setTimeout as sleep } from 'timers/promises';
 
 // ===== CONFIGURATION =====
 const JSON_URL = 'https://raw.githubusercontent.com/faysaldon121-beep/Backlinker/master/urlbacklinks.json';
@@ -12,7 +11,7 @@ const DELAY_MS = 1000;               // Wait 1 second between requests
 const TIMEOUT_MS = 10000;            // 10s timeout per request
 const USER_AGENT = 'BacklinkGenerator/1.0';
 
-// For POST requests, you can send data (e.g., your site URL)
+// For POST requests
 const POST_DATA = { url: YOUR_SITE, source: 'backlink_generator' };
 
 // ===== CORE FUNCTIONS =====
@@ -35,13 +34,13 @@ async function fetchTargetUrls() {
 }
 
 async function sendRequest(targetUrl) {
+  // Use AbortSignal.timeout for a cleaner timeout
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
   try {
     let response;
     if (REQUEST_METHOD === 'GET') {
-      // Append your site as a query parameter (common for pingbacks)
       const urlWithParam = new URL(targetUrl);
       urlWithParam.searchParams.set('url', YOUR_SITE);
       response = await fetch(urlWithParam.toString(), {
@@ -91,7 +90,8 @@ async function main() {
       console.log(`❌ ${result.status}`);
       failCount++;
     }
-    if (i < targets.length - 1) await setTimeout(DELAY_MS);
+    // Wait between requests – using the renamed 'sleep' function
+    if (i < targets.length - 1) await sleep(DELAY_MS);
   }
 
   console.log(`\nDone. Success: ${successCount}, Failed: ${failCount}`);
