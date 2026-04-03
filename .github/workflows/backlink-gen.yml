@@ -15,12 +15,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Create request script
-        run: |
-          cat > backlink-requester.js << 'EOF'
-          // (paste the entire script from above here)
-          EOF
-
       - name: Run backlink pinger
         run: node backlink-requester.js
 
