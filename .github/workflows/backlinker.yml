@@ -1,0 +1,26 @@
+name: Run Backlinker for gameslib.vercel.app
+
+on:
+  workflow_dispatch:          # manual trigger
+  schedule:
+    - cron: '0 2 * * *'       # daily at 02:00 UTC (optional)
+  push:
+    branches: [ main, master ] # optional
+
+jobs:
+  backlinker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run backlinker script
+        run: echo "gameslib.vercel.app" | python backlinker.py
